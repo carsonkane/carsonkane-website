@@ -10,8 +10,19 @@
     --text-muted: #495057;
     --accent-primary: #1b4332;   /* Deep Forest */
     --accent-secondary: #2d6a4f; /* Slate Green */
+    --accent-glow: #52b788;      /* Solarpunk Mint Glow */
     --surface-light: #ffffff;
     --border-subtle: #dee2e6;
+}
+
+html {
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+}
+
+site-header, site-footer {
+    display: block;
+    width: 100%;
 }
 
 * {
@@ -60,25 +71,40 @@ a:hover {
    Navigation & Brand Asset
    ========================================= */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 5%;
     background-color: var(--surface-light);
     box-shadow: 0 4px 15px rgba(27, 67, 50, 0.05);
     border-bottom: 1px solid rgba(149, 213, 178, 0.2); 
     position: relative;
     z-index: 10;
+    width: 100%;
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.25rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    min-height: 76px;
+    box-sizing: border-box;
 }
 
 .brand-container {
     display: flex;
     align-items: center;
     gap: 1rem;
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .brand-logo {
-    max-width: 30px;
+    width: 30px;
+    height: 30px;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    flex-shrink: 0;
     filter: grayscale(100%) opacity(0.8);
     transition: all 0.3s ease;
 }
@@ -96,6 +122,7 @@ a:hover {
     letter-spacing: 1.5px; /* Premium corporate letter spacing */
     color: var(--accent-primary);
     transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
 /* Connects the text glow to the frog hover */
@@ -107,11 +134,14 @@ a:hover {
 /* Restores the horizontal layout and removes bullets */
 .nav-links {
     display: flex;
-    gap: 2rem;
+    gap: 1.5rem;
     list-style: none;
     align-items: center;
     margin: 0;
     padding: 0;
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+    white-space: nowrap;
 }
 
 /* Styles the individual links */
@@ -120,7 +150,8 @@ a:hover {
     font-size: 0.95rem;
     color: var(--text-muted);
     transition: all 0.3s ease;
-    display: inline-block; 
+    display: inline-block;
+    white-space: nowrap;
 }
 
 /* Keeps the page you are currently on solidly highlighted */
@@ -184,9 +215,11 @@ a:hover {
    Responsive Media Queries
    ========================================= */
 @media (max-width: 768px) {
-    .navbar {
+    .navbar-container {
         flex-direction: column;
         gap: 1rem;
+        padding: 1rem 5%;
+        min-height: auto;
     }
     .nav-links {
         gap: 1rem;
@@ -238,8 +271,519 @@ a:hover {
     flex-wrap: wrap;
 }
 
-@media (min-width: 900px) {
+.desktop-tagline {
+    white-space: nowrap !important;
+    flex-shrink: 0;
+}
+
+@media (min-width: 1100px) {
     .desktop-tagline {
         display: inline-block !important;
+        white-space: nowrap !important;
     }
 }
+
+/* =========================================
+   Badges, Tax Callout & Student Quotes
+   ========================================= */
+.badge {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.badge-primary {
+    background: rgba(27, 67, 50, 0.1);
+    color: var(--accent-primary);
+    border: 1px solid rgba(27, 67, 50, 0.2);
+}
+
+.badge-secondary {
+    background: rgba(45, 106, 79, 0.12);
+    color: var(--accent-secondary);
+    border: 1px solid rgba(45, 106, 79, 0.25);
+}
+
+.tax-box {
+    background: #f0f7f4;
+    border: 1px solid #c2e2d2;
+    border-left: 4px solid var(--accent-primary);
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    margin: 2rem 0;
+}
+
+.tax-box h3, .tax-box h4 {
+    margin-bottom: 0.5rem;
+}
+
+.quote-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.quote-card {
+    background: var(--surface-light);
+    padding: 1.75rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-secondary);
+    border-top: 1px solid var(--border-subtle);
+    border-right: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+}
+
+.quote-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(45, 106, 79, 0.09);
+    border-color: var(--accent-secondary);
+}
+
+.quote-text {
+    font-style: italic;
+    color: var(--text-main);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.quote-author {
+    font-weight: 600;
+    color: var(--accent-primary);
+    font-size: 0.95rem;
+}
+
+.quote-role {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* =========================================
+   Google Business Card & Reviews
+   ========================================= */
+.google-business-card {
+    background: var(--surface-light);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    max-width: 750px;
+    margin: 1.5rem auto 0 auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+}
+
+.google-business-card:hover {
+    box-shadow: 0 8px 25px rgba(27, 67, 50, 0.08);
+    border-color: rgba(66, 133, 244, 0.3);
+}
+
+.google-badge-header {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: #f8f9fa;
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    border: 1px solid #e9ecef;
+    margin-bottom: 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.google-stars {
+    color: #fbbc04;
+    font-size: 1.25rem;
+    letter-spacing: 2px;
+    margin-bottom: 0.75rem;
+}
+
+.google-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(145deg, #4285F4 0%, #3367d6 100%);
+    color: #ffffff !important;
+    padding: 0.85rem 1.6rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 12px rgba(66, 133, 244, 0.28);
+    margin-top: 1.25rem;
+}
+
+.google-btn:hover {
+    background: linear-gradient(145deg, #3b78e7 0%, #2a56c6 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(66, 133, 244, 0.38);
+}
+
+/* =========================================
+   Google Reviews Grid & Cards
+   ========================================= */
+.google-reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+    text-align: left;
+}
+
+.google-review-card {
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.google-review-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.google-review-user {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.google-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.google-user-info {
+    flex-grow: 1;
+}
+
+.google-user-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.google-verified-icon {
+    color: #1a73e8;
+    font-size: 0.8rem;
+}
+
+.google-review-date {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.google-review-stars {
+    color: #fbbc04;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.6rem;
+}
+
+.google-review-text {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--text-main);
+    flex-grow: 1;
+}
+
+.review-see-more {
+    display: inline-block;
+    background: none;
+    border: none;
+    color: var(--accent-primary);
+    font-size: 0.88rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 0;
+    margin-top: 0.5rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+}
+
+.review-see-more:hover {
+    color: var(--accent-secondary);
+}
+
+/* Footer Language Buttons */
+.footer-lang-picker {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.footer-lang-btn {
+    display: inline-block;
+    padding: 0.35rem 0.9rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: #e9ecef !important;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.footer-lang-btn:hover {
+    background: rgba(82, 183, 136, 0.2);
+    border-color: var(--accent-glow);
+    color: #ffffff !important;
+}
+
+.footer-lang-btn.active {
+    background: rgba(82, 183, 136, 0.3);
+    border-color: var(--accent-glow);
+    color: #ffffff !important;
+    font-weight: 700;
+}
+
+/* =========================================
+   Unified Button System (Solarpunk Aesthetic)
+   ========================================= */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.6rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.3;
+    text-align: center;
+    text-decoration: none !important;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Primary Button (Deep Forest with Mint Glow Border) */
+.btn-primary {
+    background: linear-gradient(145deg, var(--accent-primary) 0%, #255c45 100%);
+    color: #ffffff !important;
+    border: 1px solid rgba(82, 183, 136, 0.35);
+    box-shadow: 0 4px 14px rgba(27, 67, 50, 0.16);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(145deg, #22543e 0%, #2d6a4f 100%);
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(27, 67, 50, 0.24), 0 0 14px rgba(82, 183, 136, 0.35);
+    border-color: var(--accent-glow);
+}
+
+/* Secondary Button (Slate Green with Mint Glow Border) */
+.btn-secondary {
+    background: linear-gradient(145deg, var(--accent-secondary) 0%, #367d5e 100%);
+    color: #ffffff !important;
+    border: 1px solid rgba(82, 183, 136, 0.4);
+    box-shadow: 0 4px 14px rgba(45, 106, 79, 0.16);
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(145deg, #367d5e 0%, #40916c 100%);
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(45, 106, 79, 0.24), 0 0 14px rgba(82, 183, 136, 0.35);
+    border-color: var(--accent-glow);
+}
+
+/* Outline / Ghost Button */
+.btn-outline {
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--accent-secondary) !important;
+    border: 2px solid rgba(45, 106, 79, 0.7);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.btn-outline:hover {
+    background: rgba(82, 183, 136, 0.12);
+    color: var(--accent-primary) !important;
+    border-color: var(--accent-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(45, 106, 79, 0.12), 0 0 10px rgba(82, 183, 136, 0.2);
+}
+
+/* Outline Subtle (used for TEFL or secondary utility actions) */
+.btn-outline-subtle {
+    background: transparent;
+    color: var(--accent-primary) !important;
+    border: 1px solid rgba(27, 67, 50, 0.4);
+    padding: 0.75rem 1.4rem;
+    font-size: 0.92rem;
+}
+
+.btn-outline-subtle:hover {
+    background: rgba(82, 183, 136, 0.1);
+    border-color: var(--accent-secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(27, 67, 50, 0.08);
+}
+
+/* Large Button variant */
+.btn-lg {
+    padding: 0.95rem 2.2rem;
+    font-size: 1rem;
+}
+
+/* Hero Flex CTA Helper */
+.btn-hero {
+    flex: 1;
+    min-width: 220px;
+    padding: 0.9rem 1.5rem;
+}
+
+/* Text link with arrow */
+.btn-text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--accent-primary);
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-text-link:hover {
+    color: var(--accent-secondary);
+    background: rgba(82, 183, 136, 0.1);
+    transform: translateX(3px);
+}
+
+/* =========================================
+   Social Grid & Network Links
+   ========================================= */
+.social-grid {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.6rem 1.1rem;
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    text-decoration: none !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.social-link:hover {
+    color: var(--accent-primary) !important;
+    border-color: rgba(82, 183, 136, 0.5);
+    background: rgba(82, 183, 136, 0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(27, 67, 50, 0.08);
+}
+
+/* =========================================
+   Teacher Profile & Photo (Solarpunk Style)
+   ========================================= */
+.teacher-profile-section {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap-reverse;
+    align-items: flex-start;
+    margin-bottom: 3.5rem;
+}
+
+.teacher-photo-card {
+    flex-shrink: 0;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.teacher-photo-frame {
+    position: relative;
+    display: inline-block;
+    border-radius: 12px;
+    padding: 3px;
+    background: linear-gradient(145deg, rgba(82, 183, 136, 0.4), rgba(27, 67, 50, 0.15));
+    box-shadow: 0 6px 20px rgba(27, 67, 50, 0.12);
+    transition: all 0.3s ease;
+}
+
+.teacher-photo-frame:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 26px rgba(27, 67, 50, 0.18), 0 0 14px rgba(82, 183, 136, 0.3);
+    background: linear-gradient(145deg, var(--accent-glow), rgba(45, 106, 79, 0.5));
+}
+
+.teacher-photo {
+    width: 250px;
+    max-width: 100%;
+    aspect-ratio: 3 / 4;
+    height: auto;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 10px;
+    display: block;
+}
+
+.teacher-caption {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    letter-spacing: 0.2px;
+}
+
+@media (max-width: 768px) {
+    .teacher-photo-card {
+        margin-bottom: 1rem;
+    }
+    .teacher-photo {
+        width: 220px;
+    }
+}
+
+
